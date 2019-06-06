@@ -1,3 +1,6 @@
+"""
+VERSION 1.0.0 ChiChi
+"""
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.dropdown import DropDown
@@ -10,7 +13,8 @@ import hashlib
 import os
 import pygsheets
 
-#burgerghghg
+# burgerghghg
+
 
 class WeatherRoot(ScreenManager, BoxLayout):
     pass
