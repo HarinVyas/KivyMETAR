@@ -1,0 +1,25 @@
+{
+  "users": {
+    "1": {
+      "username": "f",
+      "password_hash": "10705e71b1f9f8188bd8edf3f6fe0426",
+      "email": "f@f.f",
+      "recent_searches_METAR": [],
+      "recent_searches_ICAO": []
+    },
+    "2": {
+      "username": "g",
+      "password_hash": "24e7798d7bd8372ec1e622176406c908",
+      "email": "g@g.g",
+      "recent_searches_METAR": [],
+      "recent_searches_ICAO": []
+    },
+    "3": {
+      "username": "h",
+      "password_hash": "251ae1a4ffe473bf2ac4b8970f4da26d",
+      "email": "h@h.h",
+      "recent_searches_METAR": [],
+      "recent_searches_ICAO": []
+    }
+  }
+}

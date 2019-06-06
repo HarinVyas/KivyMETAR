@@ -1,0 +1,95 @@
+{
+   "meta":{
+      "timestamp":"2019-05-14T14:21:44.104651Z",
+      "cache-timestamp":"2019-05-14T14:20:53.450000Z"
+   },
+   "altimeter":{
+      "repr":"2985",
+      "value":29.85,
+      "spoken":"two nine point eight five"
+   },
+   "clouds":[
+      {
+         "repr":"FEW010",
+         "type":"FEW",
+         "altitude":10,
+         "modifier":null,
+         "direction":null
+      },
+      {
+         "repr":"OVC017",
+         "type":"OVC",
+         "altitude":17,
+         "modifier":null,
+         "direction":null
+      }
+   ],
+   "flight_rules":"MVFR",
+   "other":[
+
+   ],
+   "sanitized":"KJFK 141351Z 00000KT 10SM FEW010 OVC017 08/06 A2985 RMK AO2 SLP108 T00830061",
+   "visibility":{
+      "repr":"10",
+      "value":10,
+      "spoken":"one zero"
+   },
+   "wind_direction":{
+      "repr":"000",
+      "value":0,
+      "spoken":"zero zero zero"
+   },
+   "wind_gust":null,
+   "wind_speed":{
+      "repr":"00",
+      "value":0,
+      "spoken":"zero"
+   },
+   "raw":"KJFK 141351Z 00000KT 10SM FEW010 OVC017 08/06 A2985 RMK AO2 SLP108 T00830061",
+   "station":"KJFK",
+   "time":{
+      "repr":"141351Z",
+      "dt":"2019-05-14T13:51:00Z"
+   },
+   "remarks":"RMK AO2 SLP108 T00830061",
+   "dewpoint":{
+      "repr":"06",
+      "value":6,
+      "spoken":"six"
+   },
+   "remarks_info":{
+      "dewpoint_decimal":{
+         "repr":"6.1",
+         "value":6.1,
+         "spoken":"six point one"
+      },
+      "temperature_decimal":{
+         "repr":"8.3",
+         "value":8.3,
+         "spoken":"eight point three"
+      }
+   },
+   "runway_visibility":[
+
+   ],
+   "temperature":{
+      "repr":"08",
+      "value":8,
+      "spoken":"eight"
+   },
+   "wind_variable_direction":[
+
+   ],
+   "units":{
+      "altimeter":"inHg",
+      "altitude":"ft",
+      "temperature":"C",
+      "visibility":"sm",
+      "wind_speed":"kt"
+   },
+   "summary":"Winds Calm, Vis 10sm, Temp 8\u00b0C, Dew 6\u00b0C, Alt 29.85 inHg, Few clouds at 1000ft, Overcast layer at 1700ft"
+}
+
+
+
+

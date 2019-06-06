@@ -1,0 +1,282 @@
+WeatherRoot:
+<WeatherRoot>:
+    canvas.before:
+        Color:
+            #rgba: 1, 0.9, 0.8, 1 - blanched almond
+            #rgba: 0.2, 0.8, 0.8, 1
+            rgba: 0.5, 0, 0.5, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    LoginPage:
+    RegisterPage:
+    AddLocationForm:
+    ICAOFinder:
+
+
+<LoginPage>:
+    name: "Login"
+    username_input: username
+    password_input: password
+    validation: confo
+    BoxLayout:
+        orientation: "vertical"
+        padding: [100, 50, 100, 50]
+        spacing: 30
+        center_x: True
+
+        Label:
+            text: "Username"
+            font_size: 28
+            color: 1, 0.9, 0.8, 1
+        TextInput:
+            id: username
+            font_size: 30
+            color: 1, 0.9, 0.8, 1
+        Label:
+            text: "Password"
+            font_size: 28
+            color: 1, 0.9, 0.8, 1
+        TextInput:
+            id: password
+            password: True
+            multiline: False
+            font_size: 30
+            color: 1, 0.9, 0.8, 1
+        AnchorLayout:
+            Button:
+                text: "Go"
+                font_size: 30
+                size_hint_x: 0.5
+                halign: 'center'
+                color: 1, 0.9, 0.8, 1
+                on_release:
+                    root.validate()
+        BoxLayout:
+            Button:
+                text: "Register"
+                size_hint_x: 0.5
+                font_size: 28
+                color: 1, 0.9, 0.8, 1
+                on_release:
+                    app.root.current = "Register"
+                    root.manager.transition.direction = "right"
+            Button:
+                text: "Forgot Password"
+                size_hint_x: 0.5
+                font_size: 28
+                color: 1, 0.9, 0.8, 1
+        Label:
+            id: confo
+            text: ""
+            font_size: 25
+
+<RegisterPage>:
+    name: "Register"
+    username_input: username
+    password_input: password
+    email_input: email
+    validation: confo
+    BoxLayout:
+        orientation: "vertical"
+        padding: [100, 50, 100, 50]
+        spacing: 30
+        center_x: True
+
+        Label:
+            text: "Username"
+            font_size: 25
+        TextInput:
+            id: username
+            font_size: 25
+            size_hint_y: 1.75
+        Label:
+            text: "Password"
+            font_size: 25
+        TextInput:
+            id: password
+            password: True
+            multiline: False
+            font_size: 25
+            size_hint_y: 1.75
+        Label:
+            text: "Email"
+            font_size: 25
+        TextInput:
+            id: email
+            font_size: 25
+            size_hint_y: 1.75
+        AnchorLayout:
+            Button:
+                text: "Go"
+                font_size: 25
+                size_hint_x: 0.6
+                size_hint_y: 1.5
+                halign: 'center'
+                on_release:
+                    root.register_validation()
+        AnchorLayout:
+            Button:
+                text: "Already got an account?"
+                size_hint_x: 0.6
+                size_hint_y: 1.5
+                halign: 'center'
+                font_size: 28
+                on_release:
+                    app.root.current = "Login"
+                    root.manager.transition.direction = "left"
+        Label:
+            id: confo
+            text: ""
+            font_size: 25
+
+
+<AddLocationForm>:
+    name: "AddLocation"
+
+    search_input: search_box
+    search_results: search_results_list
+    recent_search_one: rsone
+    recent_search_two: rstwo
+    recent_search_three: rsthree
+    orientation: "vertical"
+    ActionBar:
+        pos_hint: {'top':1}
+
+        #ActionView:
+         #   use_separator: True
+          #  ActionListButton:
+           #     id: _list_button
+            #    root: root
+             #   title: 'fsjgkha'
+    BoxLayout:
+        height: "40dp"
+        size_hint_y: None
+        Label:
+            text: "Enter ICAO Code"
+    BoxLayout:
+        height: "40dp"
+        size_hint_y: None
+        TextInput:
+            id: search_box
+            size_hint_x: 40
+            hint_text: "ICAO"
+            text: ""
+        Button:
+            text: "Search"
+            size_hint_x: 10
+            on_press:
+                root.search_location()
+        Button:
+            text: "Recent Searches"
+            size_hint_x: 20
+            on_parent: dropdown.dismiss()
+            on_release: dropdown.open(self)
+        DropDown:
+            id: dropdown
+            on_select: btn.text = '{}'.format(args[1])
+
+            Button:
+                id: rsone
+                text: 'First Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+            Button:
+                id: rstwo
+                text: 'Second Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+            Button:
+                id: rsthree
+                text: 'Third Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+        Button:
+            size_hint_x: 10
+            text: "Clear"
+            on_release: search_results_list.item_strings = []
+        Button:
+            text: "Forgot your ICAO?"
+            size_hint_x: 20
+            on_release:
+                app.root.current = "ICAO"
+                root.manager.transition.direction = "left"
+
+    ListView:
+        id: search_results_list
+        item_strings: []
+
+<ICAOFinder>:
+    name: "ICAO"
+    search_input: search_box
+    search_results: search_results_list_ICAO
+    recent_search_one: rsone
+    recent_search_two: rstwo
+    recent_search_three: rsthree
+    orientation: "vertical"
+    ActionBar:
+        pos_hint: {'top':1}
+    BoxLayout:
+        height: "40dp"
+        size_hint_y: None
+        Label:
+            text: "Enter Name of airport"
+    BoxLayout:
+        height: "40dp"
+        size_hint_y: None
+        TextInput:
+            id: search_box
+            size_hint_x: 40
+        Button:
+            text: "Search"
+            size_hint_x: 10
+            on_press: root.findICAO()
+        Button:
+            text: "Recent Searches"
+            size_hint_x: 20
+            on_parent: dropdown.dismiss()
+            on_release: dropdown.open(self)
+        DropDown:
+            id: dropdown
+            on_select: btn.text = '{}'.format(args[1])
+
+            Button:
+                id: rsone
+                text: 'First Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+            Button:
+                id: rstwo
+                text: 'Second Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+            Button:
+                id: rsthree
+                text: 'Third Item'
+                size_hint_y: None
+                height: 35
+                on_release: search_box.text = self.text
+
+        Button:
+            size_hint_x: 10
+            text: "Clear"
+            on_release: search_results_list_ICAO.item_strings = []
+        Button:
+            text: "Back"
+            size_hint_x: 10
+            on_release:
+                app.root.current = "AddLocation"
+                root.manager.transition.direction = "right"
+    ListView:
+        id: search_results_list_ICAO
+        item_strings: []
