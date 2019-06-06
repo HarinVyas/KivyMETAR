@@ -27,7 +27,7 @@ class RegisterPage(BoxLayout, Screen):
     validation = ObjectProperty()
 
     def register_validation(self):
-        f = open("data.json", "r", encoding="utf-8")
+        f = open("Data/data.json", "r", encoding="utf-8")
         data = json.load(f)
         idLst = []
         f.close()
@@ -47,11 +47,11 @@ class RegisterPage(BoxLayout, Screen):
         passHash = hashlib.md5((salt + self.password_input.text).encode("utf-8")).hexdigest()
         data['users'][id] = {"username": self.username_input.text, "password_hash": passHash,
                              "email": self.email_input.text, "recent_searches_METAR": [], "recent_searches_ICAO": []}
-        with open("temp.json", "w", encoding="utf-8") as f:
+        with open("Data/temp.json", "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
         f.close()
-        os.remove("data.json")
-        os.rename("temp.json", "data.json")
+        os.remove("Data/data.json")
+        os.rename("Data/temp.json", "Data/data.json")
         self.validation.text = "Registration Complete"
         self.password_input.text = ""
         self.email_input.text = ""
@@ -64,7 +64,7 @@ class LoginPage(BoxLayout, Screen):
     validation = ObjectProperty()
 
     def validate(self):
-        f = open("data.json", "r", encoding="utf-8")
+        f = open("Data/data.json", "r", encoding="utf-8")
         data = json.load(f)
         idLst, usrlst = [], []
         for id in data['users']:
@@ -125,7 +125,7 @@ class ICAOFinder(BoxLayout, Screen):
     search_results = ObjectProperty()
 
     def findICAO(self):
-        f = open("airports.csv", encoding="utf-8")
+        f = open("Data/airports.csv", encoding="utf-8")
         data = []
         for line in f:
             data_line = line.rstrip().split('\n')
