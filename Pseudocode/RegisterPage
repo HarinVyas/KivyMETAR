@@ -1,0 +1,98 @@
+RegisterPage Class
+
+Python
+
+//defines a class which inherits BoxLayout and Screen
+class RegisterPage(BoxLayout, Screen) {
+	
+	// gets the respective object properties from the kv code and sets them as variables
+	username_input = ObjectProperty()
+	password_input = ObjectProperty()
+	email_input = ObjectProperty()
+	validation = ObjectProperty()
+	
+	//defines a method which takes self 
+	procedure register_validation(self){
+		// opens data.json to read and sets it to variable f
+		f = OPENREAD(“data.json”)
+		// uses json.load to decode the data into a python dictionary called data
+		data = json.LOAD(f)
+		// initialises a list which will store the id's of each user
+		idLst = []
+		// closes the file as all neccesary data has been extrapolated
+		f.CLOSE()
+		// a for loop which iterates over each user, gets their id and adds it to the list
+		FOR users IN data[‘users’] {
+			idLst.append(users)
+		}
+		ENDFOR
+		
+		// a for loop to validate the user (iterates over each users id)
+		FOR id IN idLst{
+			// if any of the input fields are empty then it changes the validation text to tell the user that the form isn't complete
+			IF (self.username_input.text OR self.password_input.text OR self.email_input.text) == "" {
+				self.validation.text = "Form not completed"
+			}
+			// if the username or email is already in use (in the list of users) then it will tell the user so by changing the validation text
+			ELSEIF (self.username_input.text == data['users'][id]['username']) OR (self.email_input.text == data['users'][id]['email']) {
+				self.validation.text = "Username or Email is taken"
+			}
+			// else it will send the user to the register method, giving it the list of user ids and the whole decoded json dictionary
+			ELSE {
+				self.REGISTER(idLst, data)
+			}
+			ENDIF
+		}
+		ENDFOR
+	}
+	ENDPROCEDURE
+	
+	// defines a method which takes self, the list of users ids and the whole decoded json dictionary
+	procedure register(self, idLst, data){
+		// as every id is currently a string, this is converted to an integer so we can get the last id number and add 1 as the id's increment
+		// We convert this to a string as the formatting in the json file requires the id to be a string
+		id = TOSTRING(TOINTEGER(idLst[-1]) + 1)
+		// sets the hash salt (used to account for rainbow tables)
+		salt = "foo"
+		// this hashes the salt and the password (both are joined with the salt first) using md5 encryption
+		passHash = hashlib.MD5((salt & self.password_input.text).ENCODE("utf-8)).HEXDIGEST()
+		// this adds the new users data to the end of the decoded json dictionary
+		data['users'][id] = {"username": self.username_input.text, "password_hash": passHash,
+                             "email": self.email_input.text, "recent_searches_METAR": [], "recent_searches_ICAO": []}
+        
+		// this creates a temporary json file and dumps the modified data there and closes it
+		f = OPENWRITE("temp.json")
+		json.DUMP(data, f, indent=2)
+        f.CLOSE()
+		
+		// this deletes the old json file, and renames the temporary one to be the same name as the old one (basically replacing them)
+		os.REMOVE("Data/data.json")
+        os.RENAME("Data/temp.json", "Data/data.json")
+		
+		// this tells the user that the registration is complete and empties the form incase another user wants to be registered.
+        self.validation.text = "Registration Complete"
+        self.password_input.text = ""
+        self.email_input.text = ""
+        self.username_input.text = ""
+	}
+	ENDPROCEDURE
+}
+
+Kivy
+
+// child of WeatherRoot so inherits the background color
+
+class RegisterPage:
+
+	name = "Register"
+	username_input = username
+	password_input = password
+	email_input = email
+	validation = confo
+	
+	BoxLayout {
+		orientation = "vertical"
+		padding = [100, 50, 100, 50]
+		spacing = 30
+	}
+	

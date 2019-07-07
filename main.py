@@ -7,11 +7,9 @@ from kivy.uix.dropdown import DropDown
 from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.actionbar import ActionBar
 import json
 import hashlib
 import os
-import pygsheets
 
 # burgerghghg
 
@@ -101,7 +99,7 @@ class AddLocationForm(BoxLayout, Screen):
         request = UrlRequest(search_url, self.found_location)
         print(f"request = {request}")
 
-    def found_location(self, request, data):
+    def found_location(self, data):
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
         print(data)
         toAdd = []
@@ -112,8 +110,6 @@ class AddLocationForm(BoxLayout, Screen):
             toAdd.append(i)
         print(toAdd)
         self.search_results.item_strings = toAdd
-
-
 
     def change_val(self, val):
         print("Hello")
