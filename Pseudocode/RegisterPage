@@ -3,7 +3,7 @@ RegisterPage Class
 Python
 
 //defines a class which inherits BoxLayout and Screen
-class RegisterPage(BoxLayout, Screen) {
+CLASS RegisterPage(BoxLayout, Screen) {
 	
 	// gets the respective object properties from the kv code and sets them as variables
 	username_input = ObjectProperty()
@@ -12,7 +12,7 @@ class RegisterPage(BoxLayout, Screen) {
 	validation = ObjectProperty()
 	
 	//defines a method which takes self 
-	procedure register_validation(self){
+	PROCEDURE register_validation(self){
 		// opens data.json to read and sets it to variable f
 		f = OPENREAD(“data.json”)
 		// uses json.load to decode the data into a python dictionary called data
@@ -48,7 +48,7 @@ class RegisterPage(BoxLayout, Screen) {
 	ENDPROCEDURE
 	
 	// defines a method which takes self, the list of users ids and the whole decoded json dictionary
-	procedure register(self, idLst, data){
+	PROCEDURE register(self, idLst, data){
 		// as every id is currently a string, this is converted to an integer so we can get the last id number and add 1 as the id's increment
 		// We convert this to a string as the formatting in the json file requires the id to be a string
 		id = TOSTRING(TOINTEGER(idLst[-1]) + 1)
@@ -77,22 +77,110 @@ class RegisterPage(BoxLayout, Screen) {
 	}
 	ENDPROCEDURE
 }
+ENDCLASS
+
 
 Kivy
 
 // child of WeatherRoot so inherits the background color
 
-class RegisterPage:
+CLASS RegisterPage {
 
+	// sets the name so the screen manager can identify this screen
 	name = "Register"
+	// sets object properties for certain widgets given their id so they can be manipulated in the python code.
 	username_input = username
 	password_input = password
 	email_input = email
 	validation = confo
 	
+	// sets a box layout for the widgets on the screen.
+	// box layout lays out the widgets on the screen horizontally so all of the screen is filled with equal space given to each widget
 	BoxLayout {
+		// tells the box layout to lay the widgets vertially instead.
 		orientation = "vertical"
+		// adds padding to either side (L, T, R, B) in pixels so the boxlayout is centered and doesn't take up the entire screen
 		padding = [100, 50, 100, 50]
+		// adds a spacing of 30 pixels between each widget
 		spacing = 30
+		// centers the widgets horizontally
+		center_x = True
+		
+		// creates a label widget which has the text "Username" and who's font size is 25 pixels
+		Label {
+			text = "Username"
+			font_size = 25
+		}
+		// creates an input widget which has been given an id, has a font size of 25 pixels. The widget is also stretched vertically so it is 175% of the original.
+		TextInput {
+            id = username
+            font_size = 25
+            size_hint_y = 1.75
+		}
+		// creates a label widget which has the text "Password" and who's font size is 25 pixels
+        Label {
+            text = "Password"
+            font_size = 25
+		}
+		// creates an input widget which has been given an id, has a font size of 25 pixels. The input cannot take multiple lines and has been given password formatting
+		// The widget is also stretched vertically so it is 175% of the original.
+        TextInput {
+            id = password
+            password = True
+            multiline = False
+            font_size = 25
+            size_hint_y = 1.75
+		}
+		// creates a label widget which has the text "Email" and who's font size is 25 pixels
+        Label {
+            text = "Email"
+            font_size = 25
+		}
+		// creates an input widget which has been given an id, has a font size of 25 pixels. The widget is also stretched vertically so it is 175% of the original.
+        TextInput {
+            id = email
+            font_size = 25
+            size_hint_y = 1.75
+		}
+		// Creates a anchor layout inside the box layout. An anchor layout, lays out its widgets vertially and horizontally to a set place eg left, center or right
+        AnchorLayout {
+			// creates a button widget which has the text "Go", font size is 25 pixels and is stretched vertically to 60% of the original
+			// and horizontally to 150% of the original. It is aligned so it is in the centre (horizontally) of the anchor layout
+            Button {
+                text = "Go"
+                font_size = 25
+                size_hint_x = 0.6
+                size_hint_y = 1.5
+                halign: 'center'
+				// once the button is clicked, it runs the register_validation() method in the python code
+                on_release {
+                    root.register_validation()
+				}
+			}
+		}
+		// Creates a anchor layout inside the box layout
+        AnchorLayout {
+			// creates a button widget which has the text "Already got an account?", font size is 28 pixels and is stretched vertically to 60% of the original
+			// and horizontally to 150% of the original. It is aligned so it is in the centre (horizontally) of the anchor layout
+            Button {
+                text = "Already got an account?"
+                size_hint_x = 0.6
+                size_hint_y = 1.5
+                halign = 'center'
+                font_size = 28
+				// once the button is released, it calls the screen manager to move to the login screen by setting the current screen to "Login" with a transition to the left
+                on_release{
+                    app.root.current = "Login"
+                    root.manager.transition.direction = "left"
+				}
+			}
+		}
+		// creates a label widget with no text, who's font size is 25 pixels and has the id "confo". This will be where the confirmation/error text will be.
+        Label {
+            id = confo
+            text = ""
+            font_size = 25
+		}
 	}
-	
+}
+ENDCLASS

@@ -97,12 +97,12 @@ class AddLocationForm(BoxLayout, Screen):
         search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache"
         search_url = search_template.format(self.search_input.text)
         request = UrlRequest(search_url, self.found_location)
-        print(f"request = {request}")
 
-    def found_location(self, data):
+    def found_location(self, request, data):
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
         print(data)
         toAdd = []
+
         raw = data['raw'].split()
         summary = data['summary'].split(',')
         print(f"raw = {raw}\nsummary = {summary}")
