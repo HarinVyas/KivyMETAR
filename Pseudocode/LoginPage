@@ -1,0 +1,167 @@
+LoginPage Class
+
+Python
+
+CLASS LoginPage(BoxLayout, Screen) {
+
+	// gets the respective object properties from the kv code and sets them as variables
+	username_input = ObjectProperty()
+	password_input = ObjectProperty()
+	validation = ObjectProperty()
+	
+	PROCEDURE validate(self) {
+		// opens data.json to read and sets it to variable f
+		f = OPENREAD(“data.json”)
+		// uses json.load to decode the data into a python dictionary called data
+		data = json.LOAD(f)
+		// initialises 2 lists, one for the id's and the other for the usernames
+		idLst, usrLst = []
+		
+		// fills out these lists by iterating over the data from the json file
+		FOR id IN data['users'] {
+			idLst.APPEND(id)
+			usrLst.APPEND(data['users'][id]['username'])
+		}
+		ENDFOR
+		// tells the user if the form is not completed
+		IF (self.username_input.text OR self.password_input.text) == "" {
+            self.validation.text = "Form not completed"
+		}
+		// tells the user if the user dowsn't exist in the json file
+        ELSEIF (self.username_input.text NOT IN usrlst) {
+            self.validation.text = "User doesn't exist"
+		}
+		// if neither is true, validation is complete and the data is carried onto the next procedure
+		ELSE {
+			self.login(usrLst, idLst, data)
+		}
+		ENDIF
+	}
+	ENDPROCEDURE
+	
+	// the procedure for checking passwords and login taking the arguments from the previous procedure
+	PROCEDURE login(self, usrLst, idLst, data) {
+		// creates a dictionary from the usernames and id's with usernames as the keys
+		users = DICT(ZIP(usrLst, idLst))
+		
+		// creates a dictionary which has all the specific users data in it
+		usrinfo = data['users'][users[self.username_input.text]]
+		// the salt which was used in the RegisterPage Class
+		salt = "foo"
+		// we hash the input for the password using the same method as in the RegisterPage Class
+		passHash = hashlib.MD5((salt + self.password_input.text).ENCODE("utf-8")).HEXDIGEST()
+		// If the inputed password's hash matches the hash stored then the user is moved to the screen with id 'AddLocation'.
+		IF usrinfo['password_hash'] == passHash {
+			self.manager.current = 'AddLocation'
+		}
+		// if the inputed password's hash doesn't match then the user is told that their password input is wrong
+		ELSE {
+			self.validation.text = "Password is wrong"
+		}
+		ENDIF
+	}
+	ENDPROCEDURE
+}
+ENDCLASS
+
+Kivy
+
+// child of WeatherRoot so inherits the background color
+
+CLASS LoginPage {
+	
+	// sets the name so the screen manager can identify this screen
+	name = "Login"
+	// sets object properties for certain widgets given their id so they can be manipulated in the python code.
+	username_input = username
+	password_input = password
+	validation = confo
+	
+	// sets a box layout for the widgets on the screen.
+	// box layout lays out the widgets on the screen horizontally so all of the screen is filled with equal space given to each widget
+	BoxLayout {
+		// tells the box layout to lay the widgets vertially instead.
+		orientation = "vertical"
+		// adds padding to either side (L, T, R, B) in pixels so the boxlayout is centered and doesn't take up the entire screen
+		padding = [100, 50, 100, 50]
+		// adds a spacing of 30 pixels between each widget
+		spacing = 30
+		// centers the widgets horizontally
+		center_x = True
+		
+		// creates a label widget which has the text "Username" and who's font size is 25 pixels.
+		Label {
+			text = "Username"
+			font_size = 25
+			// sets text colour to blanched almond
+			color = 1, 0.9, 0.8, 1
+		}
+		// creates an input widget which has been given an id, has a font size of 25 pixels. The widget is also stretched vertically so it is 175% of the original.
+		TextInput {
+            id = username
+            font_size = 25
+            size_hint_y = 1.75
+			color = 1, 0.9, 0.8, 1
+		}
+		// creates a label widget which has the text "Password" and who's font size is 25 pixels and with the blanched almond colour.
+        Label {
+            text = "Password"
+            font_size = 25
+			color = 1, 0.9, 0.8, 1
+		}
+		// creates an input widget which has been given an id, has a font size of 25 pixels. The input cannot take multiple lines and has been given password formatting
+		// same colour settings.
+		TextInput {
+            id = password
+            password = True
+            multiline = False
+            font_size = 30
+            color = 1, 0.9, 0.8, 1
+		}
+		// Creates a anchor layout inside the box layout
+        AnchorLayout {
+			// creates a button widget which has the text "Go", font size is 30 pixels. It is aligned so it is in the centre (horizontally) of the anchor layout.
+            Button {
+                text = "Go"
+                font_size = 30
+                size_hint_x = 0.5
+                halign = 'center'
+                color = 1, 0.9, 0.8, 1
+				// once the button has been pressed, it runs the validate method in the LoginPage class in the python code.
+                on_release {
+                    root.validate()
+				}
+			}
+		}
+		// creates a box layout in the box layout
+        BoxLayout {
+			// creates a button with text "Register" with font size 28 for the text, blanched almiond text colour and size 50% of the original in the x axis.
+            Button {
+                text = "Register"
+                size_hint_x = 0.5
+                font_size = 28
+                color = 1, 0.9, 0.8, 1
+				// once the botton has been pressed, it moves to the register screen with an epic screen transition
+                on_release {
+                    app.root.current = "Register"
+                    root.manager.transition.direction = "right"
+				}
+			}
+			// creates a button with text "Forgot Password" which has been shrinked to 50% of the original in the x axis, font size is 28 and colour is blanched almond
+            Button {
+                text = "Forgot Password"
+                size_hint_x = 0.5
+                font_size = 28
+                color = 1, 0.9, 0.8, 1
+			}
+		}
+		// creates a label (and gives it an id) with font size 28, this is where the confirmation / error text will go.
+        Label {
+            id = confo
+            text = ""
+            font_size = 25
+		}
+	}
+		
+
+}
