@@ -4,7 +4,136 @@ Python
 
 CLASS ICAOFinder(BoxLayout, Screen) {
 	
+	// gets the respective object properties from the kv code and sets them as variables
 	search_input = ObjectProperty()
+	search_results = ObjectProperty()
 	
+	// creates a procedure called findICAO
+	PROCEDURE findICAO(self) {
+		// gets the data from the csv file and sets it to f
+		f = OPENREAD("Data/airports.csv")
+		// creates an empty list
+		data = []
+		// a for loop which formats the data to make embedded lists with are then put in the 'data' list
+		FOR line IN f {
+			data_line = line.rstrip().split('\n')
+			data_list = data_line[0].split(',')
+			data.append(data_list)
+	
+		}
+		// creates a list for the search results to go in
+		ICAOList = ["Search results are: "]
+		// a couner so we know how many search results we have got
+		counter = 0
+		// a for loop which searches the data for the search query, formats the results and then adds them to the results list. 
+		// this automatically updates the screen with the updated list each loop.
+		FOR lst IN data {
+			IF self.search_input.text IN lst[1] {
+				counter +=1
+				ICAOList.APPEND("{} ICAO is {}".FORMAT(lst[1, lst[0]))
+			}
+			ICAOList.INSERT(0, "Total number of results: {}".FORMAT(counter))
+			self.search_results.item_strings = ICAOList
+		}
+	}
+	ENDPROCEDURE
 
 }
+ENDCLASS
+
+Kivy
+
+CLASS ICAOFinder {
+    name: "ICAO"
+    search_input: search_box
+    search_results: search_results_list_ICAO
+    recent_search_one: rsone
+    recent_search_two: rstwo
+    recent_search_three: rsthree
+    orientation: "vertical"
+    BoxLayout {
+        height: "40dp"
+        size_hint_y: None
+        Label (
+            text: "Enter Name of airport"
+		}
+	}
+    BoxLayout {
+        height: "40dp"
+        size_hint_y: None
+        TextInput {
+            id: search_box
+            size_hint_x: 40
+		}
+        Button {
+            text: "Search"
+            size_hint_x: 10
+            on_press { 
+				root.findICAO()
+			}
+		}
+        Button {
+            text: "Recent Searches"
+            size_hint_x: 20
+            on_parent ( 
+				dropdown.dismiss()
+			}
+            on_release { 
+				dropdown.open(self)
+			}
+		}
+        DropDown (
+            id: dropdown
+            on_select { 
+				btn.text = '{}'.format(args[1])
+			}
+
+            Button {
+                id: rsone
+                text: 'First Item'
+                size_hint_y: None
+                height: 35
+                on_release { 
+					search_box.text = self.text
+				}
+			}
+            Button {
+                id: rstwo
+                text: 'Second Item'
+                size_hint_y: None
+                height: 35
+                on_release { 
+					search_box.text = self.text
+				}
+			}
+
+            Button {
+                id: rsthree
+                text: 'Third Item'
+                size_hint_y: None
+                height: 35
+                on_release { 
+					search_box.text = self.text
+			}
+
+        Button {
+            size_hint_x: 10
+            text: "Clear"
+            on_release { 
+				search_results_list_ICAO.item_strings = []
+			}
+		}
+        Button {
+            text: "Back"
+            size_hint_x: 10
+            on_release {
+                app.root.current = "AddLocation"
+                root.manager.transition.direction = "right"
+			}
+		}
+    ListView {
+        id: search_results_list_ICAO
+        item_strings: []
+	}
+}
+ENDCLASS

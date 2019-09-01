@@ -96,7 +96,8 @@ CLASS LoginPage {
 			// sets text colour to blanched almond
 			color = 1, 0.9, 0.8, 1
 		}
-		// creates an input widget which has been given an id, has a font size of 25 pixels. The widget is also stretched vertically so it is 175% of the original.
+		// creates an input widget which has been given an id, has a font size of 25 pixels. 
+		// The widget is also stretched vertically so it is 175% of the original.
 		TextInput {
             id = username
             font_size = 25
@@ -109,7 +110,8 @@ CLASS LoginPage {
             font_size = 25
 			color = 1, 0.9, 0.8, 1
 		}
-		// creates an input widget which has been given an id, has a font size of 25 pixels. The input cannot take multiple lines and has been given password formatting
+		// creates an input widget which has been given an id, has a font size of 25 pixels. 
+		// The input cannot take multiple lines and has been given password formatting
 		// same colour settings.
 		TextInput {
             id = password
@@ -120,7 +122,8 @@ CLASS LoginPage {
 		}
 		// Creates a anchor layout inside the box layout
         AnchorLayout {
-			// creates a button widget which has the text "Go", font size is 30 pixels. It is aligned so it is in the centre (horizontally) of the anchor layout.
+			// creates a button widget which has the text "Go", font size is 30 pixels. 
+			// It is aligned so it is in the centre (horizontally) of the anchor layout.
             Button {
                 text = "Go"
                 font_size = 30
