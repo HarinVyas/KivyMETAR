@@ -3,22 +3,29 @@
 
 WeatherRoot:
 <WeatherRoot>:
-    canvas.before:
-        Color:
+    id: screen_manager
+    #canvas.before:
+     #   Color:
             #rgba: 1, 0.9, 0.8, 1 - blanched almond
             #rgba: 0.2, 0.8, 0.8, 1
-            rgba: 0.5, 0, 0.5, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
+     #       rgba: 0.5, 0, 0.5, 1
+     #   Rectangle:
+      #      pos: self.pos
+       #     size: self.size
     LoginPage:
+        id: login_page
+        name: "LoginPage"
+        manager: screen_manager
     RegisterPage:
     AddLocationForm:
+        id: add_location_form
+        manager: screen_manager
+        usr_details: login_page.usr_info
     ICAOFinder:
 
 
 <LoginPage>:
-    name: "Login"
+    name: "LoginPage"
     username_input: username
     password_input: password
     validation: confo
@@ -31,28 +38,28 @@ WeatherRoot:
         Label:
             text: "Username"
             font_size: 28
-            color: 1, 0.9, 0.8, 1
+            #color: 1, 0.9, 0.8, 1
         TextInput:
             id: username
             font_size: 30
-            color: 1, 0.9, 0.8, 1
+            #color: 1, 0.9, 0.8, 1
         Label:
             text: "Password"
             font_size: 28
-            color: 1, 0.9, 0.8, 1
+            #color: 1, 0.9, 0.8, 1
         TextInput:
             id: password
             password: True
             multiline: False
             font_size: 30
-            color: 1, 0.9, 0.8, 1
+            #color: 1, 0.9, 0.8, 1
         AnchorLayout:
             Button:
                 text: "Go"
                 font_size: 30
                 size_hint_x: 0.5
                 halign: 'center'
-                color: 1, 0.9, 0.8, 1
+                #color: 1, 0.9, 0.8, 1
                 on_release:
                     root.validate()
         BoxLayout:
@@ -60,7 +67,7 @@ WeatherRoot:
                 text: "Register"
                 size_hint_x: 0.5
                 font_size: 28
-                color: 1, 0.9, 0.8, 1
+                #color: 1, 0.9, 0.8, 1
                 on_release:
                     app.root.current = "Register"
                     root.manager.transition.direction = "right"
@@ -126,7 +133,7 @@ WeatherRoot:
                 halign: 'center'
                 font_size: 28
                 on_release:
-                    app.root.current = "Login"
+                    app.root.current = "LoginPage"
                     root.manager.transition.direction = "left"
         Label:
             id: confo
@@ -143,6 +150,7 @@ WeatherRoot:
     recent_search_two: rstwo
     recent_search_three: rsthree
     orientation: "vertical"
+
     #ActionBar:
     #    pos_hint: {'top':1}
 
@@ -167,21 +175,23 @@ WeatherRoot:
             text: ""
         Button:
             text: "Search"
-            size_hint_x: 10
+            size_hint_x: 15
             on_press:
                 root.search_location()
         Button:
             text: "Recent Searches"
             size_hint_x: 20
             on_parent: dropdown.dismiss()
-            on_release: dropdown.open(self)
+            on_release:
+                root.fill()
+                dropdown.open(self)
         DropDown:
             id: dropdown
             on_select: btn.text = '{}'.format(args[1])
 
             Button:
                 id: rsone
-                text: 'First Item'
+                text: "First Item"
                 size_hint_y: None
                 height: 35
                 on_release: search_box.text = self.text
@@ -199,14 +209,9 @@ WeatherRoot:
                 size_hint_y: None
                 height: 35
                 on_release: search_box.text = self.text
-
-        Button:
-            size_hint_x: 10
-            text: "Clear"
-            on_release: search_results_list.item_strings = []
         Button:
             text: "Forgot your ICAO?"
-            size_hint_x: 20
+            size_hint_x: 25
             on_release:
                 app.root.current = "ICAO"
                 root.manager.transition.direction = "left"

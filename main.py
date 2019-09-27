@@ -7,6 +7,7 @@ from kivy.uix.dropdown import DropDown
 from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import StringProperty
 import json
 import hashlib
 import os
@@ -25,19 +26,23 @@ class RegisterPage(BoxLayout, Screen):
     validation = ObjectProperty()
 
     def register_validation(self):
-        f = open("Data/data.json", "r", encoding="utf-8")
+        f = open("Data/data.json", "r")
         data = json.load(f)
+        err = False
         idLst = []
         f.close()
         for users in data['users']:
             idLst.append(users)
+        print(idLst)
+        if (not self.username_input.text) or (not self.password_input.text) or (not self.email_input.text):
+            self.validation.text = "Form not completed"
+            err = True
         for id in idLst:
-            if (self.username_input.text or self.password_input.text or self.email_input.text) == "":
-                self.validation.text = "Form not completed"
-            elif (self.username_input.text == data['users'][id]['username']) or (self.email_input.text == data['users'][id]['email']):
+            if (self.username_input.text == data['users'][id]['username']) or (self.email_input.text == data['users'][id]['email']):
                 self.validation.text = "Username or Email is taken"
-            else:
-                self.register(idLst, data)
+                err = True
+        if err == False:
+            self.register(idLst, data)
 
     def register(self, idLst, data):
         id = str(int(idLst[-1]) + 1)
@@ -57,6 +62,7 @@ class RegisterPage(BoxLayout, Screen):
 
 
 class LoginPage(BoxLayout, Screen):
+    usr_info = StringProperty('')
     username_input = ObjectProperty()
     password_input = ObjectProperty()
     validation = ObjectProperty()
@@ -78,6 +84,7 @@ class LoginPage(BoxLayout, Screen):
     def login(self, usrLst, idLst, data):
         users = dict(zip(usrLst, idLst))
         usrinfo = data['users'][users[self.username_input.text]]
+        self.usr_info = str(usrinfo)
         salt = "yousaltybro"
         passHash = hashlib.md5((salt + self.password_input.text).encode("utf-8")).hexdigest()
         if usrinfo['password_hash'] == passHash:
@@ -92,6 +99,7 @@ class AddLocationForm(BoxLayout, Screen):
     recent_search_one = ObjectProperty()
     recent_search_two = ObjectProperty()
     recent_search_three = ObjectProperty()
+    usr_details = StringProperty('')
 
     def search_location(self):
         search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache"
@@ -110,10 +118,12 @@ class AddLocationForm(BoxLayout, Screen):
             toAdd.append(i)
         print(toAdd)
         self.search_results.item_strings = toAdd
-
-    def change_val(self, val):
-        print("Hello")
-        self.search_input.text = val
+    def fill(self):
+        print(self.usr_details)
+        print(type(self.usr_details))
+        rs = ((((((self.usr_details).split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
+        print(f"{rs}, {type(rs)}")
+        self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
 
 class ICAOFinder(BoxLayout, Screen):
@@ -135,10 +145,6 @@ class ICAOFinder(BoxLayout, Screen):
                 ICAOList.append("{} ICAO is {}".format(lst[1], lst[0]))
         ICAOList.insert(0, "Total number of results: {}".format(counter))
         self.search_results.item_strings = ICAOList
-
-
-class Sample(Screen, BoxLayout):
-    pass
 
 
 class WeatherApp(App):

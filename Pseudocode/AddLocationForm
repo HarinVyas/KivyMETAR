@@ -10,6 +10,7 @@ CLASS AddLocationForm {
     recent_search_one = ObjectProperty()
     recent_search_two = ObjectProperty()
     recent_search_three = ObjectProperty()
+	usr_details = StringProperty('')
 	
 	// creates a procedure called search_location
 	PROCEDURE search_location(self){
@@ -41,67 +42,82 @@ CLASS AddLocationForm {
 	}
 	ENDPROCEDURE
 	
-	PROCEDURE change_val(self, val){
-		// a procedure which changes the search input to a given string.
-		self.search_input.text = val
-	}
-	ENDPROCEDURE
-	
+	PROCEDURE fill(self):
+		// get ready for this one it's a long boi
+		// it gets the dictionary format of the user deatils which is then split and formated multiple times to get the recent searches we need.
+		rs = ((((((self.usr_details).SPLIT(':'))[4].SPLIT(']'))[0].REPLACE(' ', '')).REPLACE("'", "")).REPLACE('[', '').SPLIT(','))
+		// fills in the recent searches
+		self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 }
 ENDCLASS
 
 Kivy
 
+// creates a class
 CLASS AddLocationForm {
-
+	
+	// sets the name so the screen manager can identify this screen
 	name = "AddLocationForm"
 	
+	// sets object properties for certain widgets given their id so they can be manipulated in the python code.
 	search_input = search_box
 	search_results = search_results_list
     recent_search_one = rsone
     recent_search_two = rstwo
     recent_search_three = rsthree
+	
+	// sets stacking of widgets to be vertical
 	orientation = "vertical"
 	
-	BoxLayout {
+	// Creates a box layout which is 40dp in height (size_hint_y has to be set to None for this to occur)
 		height = "40dp"
 		size_hint_y = None
 		Label {
 			text = "Enter ICAO Code"
 		}
 	}
+	Creates a box layout which is 40dp in height. The orientation is not defaulted to horizontal.
 	BoxLayout {
 		height = "40dp"
 		size_hint_y = None
+		// An input box which is 40% of the width of the screen, has shaddow text and has no default text.
 		TextInput {
 			id = search_box
 			size_hint_x = 40
 			hint_text = "ICAO"
 			text = ""
 		}
+		// creates a button which is 10% of the screen's width, has text on the button
+		// when pressed it runs runs the backend procedure search_location().
 		Button {
 			text = "Search"
-			size_hint_x = 10
+			size_hint_x = 15
 			on_press {
 				root.search_location()
 			}
 		}
+		// A button which thakes up 20% of the screen's width
 		Button {
 			text = "Recent Searches"
 			size_hint_x = 20
+			// if the user clicks on the parent widget then the dropdown (defined below) closes
 			on_parent {
 				dropdown.dismiss()
 			}
 			on_release {
+			// if the user clicks the button then the dropdown opens.
 				dropdown.open(self)
 			}
 		}
+		// This is the dropdown menu mentioned before (it is a widget in itself)
+		It has a id and initially handles the button text.
 		Dropdown {
 			id = dropdown
 			on_select { 
 				btn.text = '{}'.format(args[1])
 			}
-			
+			// There are 3 child button which have id's so the recent searhes can be set to them.
+			// They have text and when clicked, they will change the text in the search box to that of the button
 			Button {
                 id = rsone
                 text = 'First Item'
@@ -132,22 +148,17 @@ CLASS AddLocationForm {
 				}
 			}
 		}
-		Button {
-            size_hint_x = 10
-            text = "Clear"
-            on_release {
-				search_results_list.item_strings = []
-			}
-		}
+		// This button takes up 20% of the screen's width and takes the user to 1.4 when clicked.
         Button {
             text = "Forgot your ICAO?"
-            size_hint_x = 20
+            size_hint_x = 25
             on_release {
                 app.root.current = "ICAO"
                 root.manager.transition.direction = "left"
 			}
 		}
 	}
+	// This is the list where all the search reults will be put. It has an id for this reason. 
     ListView {
         id = search_results_list
         item_strings = []
