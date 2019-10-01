@@ -1,10 +1,5 @@
 # VERSION 1.0.0 ChiChi
-
-
-WeatherRoot:
-<WeatherRoot>:
-    id: screen_manager
-    #canvas.before:
+#canvas.before:
      #   Color:
             #rgba: 1, 0.9, 0.8, 1 - blanched almond
             #rgba: 0.2, 0.8, 0.8, 1
@@ -12,6 +7,10 @@ WeatherRoot:
      #   Rectangle:
       #      pos: self.pos
        #     size: self.size
+
+WeatherRoot:
+<WeatherRoot>:
+    id: screen_manager
     LoginPage:
         id: login_page
         name: "LoginPage"
@@ -38,28 +37,28 @@ WeatherRoot:
         Label:
             text: "Username"
             font_size: 28
-            #color: 1, 0.9, 0.8, 1
+            color: 1, 0.9, 0.8, 1
         TextInput:
             id: username
             font_size: 30
-            #color: 1, 0.9, 0.8, 1
+            color: 1, 0.9, 0.8, 1
         Label:
             text: "Password"
             font_size: 28
-            #color: 1, 0.9, 0.8, 1
+            color: 1, 0.9, 0.8, 1
         TextInput:
             id: password
             password: True
             multiline: False
             font_size: 30
-            #color: 1, 0.9, 0.8, 1
+            color: 1, 0.9, 0.8, 1
         AnchorLayout:
             Button:
                 text: "Go"
                 font_size: 30
                 size_hint_x: 0.5
                 halign: 'center'
-                #color: 1, 0.9, 0.8, 1
+                color: 1, 0.9, 0.8, 1
                 on_release:
                     root.validate()
         BoxLayout:
@@ -67,7 +66,7 @@ WeatherRoot:
                 text: "Register"
                 size_hint_x: 0.5
                 font_size: 28
-                #color: 1, 0.9, 0.8, 1
+                color: 1, 0.9, 0.8, 1
                 on_release:
                     app.root.current = "Register"
                     root.manager.transition.direction = "right"
@@ -80,6 +79,7 @@ WeatherRoot:
             id: confo
             text: ""
             font_size: 25
+            color: 1, 0.9, 0.8, 1
 
 <RegisterPage>:
     name: "Register"
