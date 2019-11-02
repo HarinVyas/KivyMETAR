@@ -80,6 +80,13 @@
       "email": "re@re.re",
       "recent_searches_METAR": [],
       "recent_searches_ICAO": []
+    },
+    "12": {
+      "username": "kkkland20",
+      "password_hash": "858e63a3872198ab9e7538478917255e",
+      "email": "kkk@kkk.kkk",
+      "recent_searches_METAR": [],
+      "recent_searches_ICAO": []
     }
   }
 }

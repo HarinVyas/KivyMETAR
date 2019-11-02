@@ -74,7 +74,7 @@ class LoginPage(BoxLayout, Screen):
         for id in data['users']:
             idLst.append(id)
             usrlst.append(data['users'][id]['username'])
-        if (self.username_input.text or self.password_input.text) == "":
+        if (self.username_input.text == "") or (self.password_input.text == ""):
             self.validation.text = "Form not completed"
         elif (self.username_input.text not in usrlst):
             self.validation.text = "User doesn't exist"
@@ -118,10 +118,11 @@ class AddLocationForm(BoxLayout, Screen):
             toAdd.append(i)
         print(toAdd)
         self.search_results.item_strings = toAdd
+
     def fill(self):
         print(self.usr_details)
         print(type(self.usr_details))
-        rs = ((((((self.usr_details).split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
+        rs = (((((self.usr_details.split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
         print(f"{rs}, {type(rs)}")
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
@@ -129,6 +130,10 @@ class AddLocationForm(BoxLayout, Screen):
 class ICAOFinder(BoxLayout, Screen):
     search_input = ObjectProperty()
     search_results = ObjectProperty()
+    recent_search_one = ObjectProperty()
+    recent_search_two = ObjectProperty()
+    recent_search_three = ObjectProperty()
+    usr_details = StringProperty('')
 
     def findICAO(self):
         f = open("Data/airports.csv", encoding="utf-8")
@@ -146,6 +151,12 @@ class ICAOFinder(BoxLayout, Screen):
         ICAOList.insert(0, "Total number of results: {}".format(counter))
         self.search_results.item_strings = ICAOList
 
+    def fill(self):
+        print(self.usr_details)
+        print(type(self.usr_details))
+        rs = (((((self.usr_details.split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
+        print(f"{rs}, {type(rs)}")
+        self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
 class WeatherApp(App):
     pass

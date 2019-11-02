@@ -11,16 +11,19 @@
 WeatherRoot:
 <WeatherRoot>:
     id: screen_manager
+    RegisterPage:
     LoginPage:
         id: login_page
         name: "LoginPage"
         manager: screen_manager
-    RegisterPage:
     AddLocationForm:
         id: add_location_form
         manager: screen_manager
         usr_details: login_page.usr_info
     ICAOFinder:
+        id: icao_finder
+        manager: screen_manager
+        usr_details: login_page.usr_info
 
 
 <LoginPage>:
@@ -249,7 +252,9 @@ WeatherRoot:
             text: "Recent Searches"
             size_hint_x: 20
             on_parent: dropdown.dismiss()
-            on_release: dropdown.open(self)
+            on_release:
+                root.fill()
+                dropdown.open(self)
         DropDown:
             id: dropdown
             on_select: btn.text = '{}'.format(args[1])
