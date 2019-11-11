@@ -21,9 +21,6 @@ WeatherRoot:
         manager: screen_manager
         usr_details: login_page.usr_info
     ICAOFinder:
-        id: icao_finder
-        manager: screen_manager
-        usr_details: login_page.usr_info
 
 
 <LoginPage>:
@@ -227,9 +224,6 @@ WeatherRoot:
     name: "ICAO"
     search_input: search_box
     search_results: search_results_list_ICAO
-    recent_search_one: rsone
-    recent_search_two: rstwo
-    recent_search_three: rsthree
     orientation: "vertical"
     #ActionBar:
      #   pos_hint: {'top':1}
@@ -255,31 +249,6 @@ WeatherRoot:
             on_release:
                 root.fill()
                 dropdown.open(self)
-        DropDown:
-            id: dropdown
-            on_select: btn.text = '{}'.format(args[1])
-
-            Button:
-                id: rsone
-                text: 'First Item'
-                size_hint_y: None
-                height: 35
-                on_release: search_box.text = self.text
-
-            Button:
-                id: rstwo
-                text: 'Second Item'
-                size_hint_y: None
-                height: 35
-                on_release: search_box.text = self.text
-
-            Button:
-                id: rsthree
-                text: 'Third Item'
-                size_hint_y: None
-                height: 35
-                on_release: search_box.text = self.text
-
         Button:
             size_hint_x: 10
             text: "Clear"

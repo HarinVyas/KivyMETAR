@@ -5,6 +5,7 @@ Python
 CLASS LoginPage(BoxLayout, Screen) {
 
 	// gets the respective object properties from the kv code and sets them as variables
+	usr_info = StringProperty('')
 	username_input = ObjectProperty()
 	password_input = ObjectProperty()
 	validation = ObjectProperty()
@@ -46,6 +47,8 @@ CLASS LoginPage(BoxLayout, Screen) {
 		
 		// creates a dictionary which has all the specific users data in it
 		usrinfo = data['users'][users[self.username_input.text]]
+		// we save the user info for later
+		self.usr_info = str(usrinfo)
 		// the salt which was used in the RegisterPage Class
 		salt = "foo"
 		// we hash the input for the password using the same method as in the RegisterPage Class

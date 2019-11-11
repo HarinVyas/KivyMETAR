@@ -133,7 +133,6 @@ class ICAOFinder(BoxLayout, Screen):
     recent_search_one = ObjectProperty()
     recent_search_two = ObjectProperty()
     recent_search_three = ObjectProperty()
-    usr_details = StringProperty('')
 
     def findICAO(self):
         f = open("Data/airports.csv", encoding="utf-8")
@@ -150,13 +149,6 @@ class ICAOFinder(BoxLayout, Screen):
                 ICAOList.append("{} ICAO is {}".format(lst[1], lst[0]))
         ICAOList.insert(0, "Total number of results: {}".format(counter))
         self.search_results.item_strings = ICAOList
-
-    def fill(self):
-        print(self.usr_details)
-        print(type(self.usr_details))
-        rs = (((((self.usr_details.split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
-        print(f"{rs}, {type(rs)}")
-        self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
 class WeatherApp(App):
     pass
