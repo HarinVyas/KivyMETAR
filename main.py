@@ -91,7 +91,8 @@ class LoginPage(BoxLayout, Screen):
             self.manager.current = 'AddLocation'
         else:
             self.validation.text = "Password is wrong"
-
+#&token={}
+#, "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg"
 
 class AddLocationForm(BoxLayout, Screen):
     search_input = ObjectProperty()
@@ -102,11 +103,13 @@ class AddLocationForm(BoxLayout, Screen):
     usr_details = StringProperty('')
 
     def search_location(self):
-        search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache"
-        search_url = search_template.format(self.search_input.text)
-        request = UrlRequest(search_url, self.found_location)
+        search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache&token={}"
+        search_url = search_template.format(self.search_input.text, "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg")
+        print(2)
+        request = UrlRequest(url=search_url, on_success=self.found_location, on_error=print, on_failure=print)
 
     def found_location(self, request, data):
+        print("jsdfhk")
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
         print(data)
         toAdd = []
@@ -118,6 +121,9 @@ class AddLocationForm(BoxLayout, Screen):
             toAdd.append(i)
         print(toAdd)
         self.search_results.item_strings = toAdd
+        self.recent_search_three = self.recent_search_two
+        self.recent_search_two = self.recent_search_one
+        self.recent_search_one = self.search_input.text
 
     def fill(self):
         print(self.usr_details)
@@ -149,6 +155,7 @@ class ICAOFinder(BoxLayout, Screen):
                 ICAOList.append("{} ICAO is {}".format(lst[1], lst[0]))
         ICAOList.insert(0, "Total number of results: {}".format(counter))
         self.search_results.item_strings = ICAOList
+
 
 class WeatherApp(App):
     pass

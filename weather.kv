@@ -243,13 +243,6 @@ WeatherRoot:
             size_hint_x: 10
             on_press: root.findICAO()
         Button:
-            text: "Recent Searches"
-            size_hint_x: 20
-            on_parent: dropdown.dismiss()
-            on_release:
-                root.fill()
-                dropdown.open(self)
-        Button:
             size_hint_x: 10
             text: "Clear"
             on_release: search_results_list_ICAO.item_strings = []
