@@ -91,8 +91,7 @@ class LoginPage(BoxLayout, Screen):
             self.manager.current = 'AddLocation'
         else:
             self.validation.text = "Password is wrong"
-#&token={}
-#, "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg"
+
 
 class AddLocationForm(BoxLayout, Screen):
     search_input = ObjectProperty()
@@ -100,45 +99,35 @@ class AddLocationForm(BoxLayout, Screen):
     recent_search_one = ObjectProperty()
     recent_search_two = ObjectProperty()
     recent_search_three = ObjectProperty()
-    usr_details = StringProperty('')
+    usr_details = ObjectProperty()
 
     def search_location(self):
         search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache&token={}"
         search_url = search_template.format(self.search_input.text, "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg")
-        print(2)
         request = UrlRequest(url=search_url, on_success=self.found_location, on_error=print, on_failure=print)
 
     def found_location(self, request, data):
         print("jsdfhk")
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
-        print(data)
         toAdd = []
 
         raw = data['raw'].split()
         summary = data['summary'].split(',')
-        print(f"raw = {raw}\nsummary = {summary}")
         for i in summary:
             toAdd.append(i)
-        print(toAdd)
         self.search_results.item_strings = toAdd
         self.recent_search_three = self.recent_search_two
         self.recent_search_two = self.recent_search_one
         self.recent_search_one = self.search_input.text
 
     def fill(self):
-        print(self.usr_details)
-        print(type(self.usr_details))
         rs = (((((self.usr_details.split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
-        print(f"{rs}, {type(rs)}")
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
 
 class ICAOFinder(BoxLayout, Screen):
     search_input = ObjectProperty()
     search_results = ObjectProperty()
-    recent_search_one = ObjectProperty()
-    recent_search_two = ObjectProperty()
-    recent_search_three = ObjectProperty()
 
     def findICAO(self):
         f = open("Data/airports.csv", encoding="utf-8")

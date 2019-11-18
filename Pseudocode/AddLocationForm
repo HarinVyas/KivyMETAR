@@ -44,7 +44,7 @@ CLASS AddLocationForm {
 	
 	PROCEDURE fill(self):
 		// get ready for this one it's a long boi
-		// it gets the dictionary format of the user deatils which is then split and formated multiple times to get the recent searches we need.
+		// it gets the dictionary format of the user details which is then split and formatted multiple times to get the recent searches we need.
 		rs = ((((((self.usr_details).SPLIT(':'))[4].SPLIT(']'))[0].REPLACE(' ', '')).REPLACE("'", "")).REPLACE('[', '').SPLIT(','))
 		// fills in the recent searches
 		self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]

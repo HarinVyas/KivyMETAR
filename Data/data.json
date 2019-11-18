@@ -4,15 +4,13 @@
       "username": "f",
       "password_hash": "10705e71b1f9f8188bd8edf3f6fe0426",
       "email": "f@f.f",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "2": {
       "username": "g",
       "password_hash": "24e7798d7bd8372ec1e622176406c908",
       "email": "g@g.g",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "3": {
       "username": "h",
@@ -22,71 +20,61 @@
         "EGCC",
         "VAAH",
         "KJFK"
-      ],
-      "recent_searches_ICAO": []
+      ]
     },
     "4": {
       "username": "poo",
       "password_hash": "99472163baac5f6bf1e5762f70b5d06a",
       "email": "poo@pee.com",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "5": {
       "username": "e",
       "password_hash": "a8ffa4b1ec805799271f860b3282879c",
       "email": "e@e.e",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "6": {
       "username": "j",
       "password_hash": "3e2ff0b12b2befcab71d039963037f60",
       "email": "j@j.j",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "7": {
       "username": "f",
       "password_hash": "5503482d8040a04d0949344ad511bc8f",
       "email": "ehmh@e.e",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "8": {
       "username": "jjj",
       "password_hash": "2b51b4d0b3b4153c053284708cfb8b02",
       "email": "jjj@jj.j",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "9": {
       "username": "hhj",
       "password_hash": "297997e8a488ad7bf5819f3f8759e5b5",
       "email": "sddd",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "10": {
       "username": "jkj",
       "password_hash": "b4b700d90b0434bf3c68f02925dc6ca0",
       "email": "gddg",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "11": {
       "username": "re",
       "password_hash": "01ffb381ad92dbd38d56b8e5a36ad391",
       "email": "re@re.re",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     },
     "12": {
       "username": "kkkland20",
       "password_hash": "858e63a3872198ab9e7538478917255e",
       "email": "kkk@kkk.kkk",
-      "recent_searches_METAR": [],
-      "recent_searches_ICAO": []
+      "recent_searches_METAR": []
     }
   }
 }
