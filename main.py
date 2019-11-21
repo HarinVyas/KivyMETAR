@@ -11,9 +11,11 @@ from kivy.properties import StringProperty
 import json
 import hashlib
 import os
-
-# burgerghghg
-
+from kivy.clock import *
+from kivy.core.window import Window
+from kivy.uix.textinput import TextInput
+import ast
+from kivy.uix.label import Label
 
 class WeatherRoot(ScreenManager, BoxLayout):
     pass
@@ -116,12 +118,18 @@ class AddLocationForm(BoxLayout, Screen):
         for i in summary:
             toAdd.append(i)
         self.search_results.item_strings = toAdd
-        self.recent_search_three = self.recent_search_two
-        self.recent_search_two = self.recent_search_one
-        self.recent_search_one = self.search_input.text
+        self.recent_search_three.text = self.recent_search_two.text
+        self.recent_search_two.text = self.recent_search_one.text
+        self.recent_search_one.text = self.search_input.text
+
+        usrdata = ast.literal_eval(self.usr_details)
+        usrdata["recent_searches_METAR"] = [self.recent_search_one.text, self.recent_search_two.text,
+                                            self.recent_search_three.text]
+        self.usr_details = str(usrdata)
+        print(self.usr_details)
 
     def fill(self):
-        rs = (((((self.usr_details.split(':'))[4].split(']'))[0].replace(' ', '')).replace("'", "")).replace('[', '').split(','))
+        rs = (ast.literal_eval(self.usr_details))["recent_searches_METAR"]
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
 
@@ -149,6 +157,35 @@ class ICAOFinder(BoxLayout, Screen):
 class WeatherApp(App):
     pass
 
+def iii(time):
+    print("h")
+    x = 1
+    if x == 1:
+        Window.clearcolor = (1, 1, 1, 1)
+        root = App.get_running_app().root  # WeatherRoot instance
+        for i in range(0, 4):
+            screen = root.screens[i]  # RegisterPage instance
+            box_layout = screen.children[0]  # BoxLayout instance
+            for child in box_layout.children:  # children of box_layout
+                if isinstance(child, TextInput):  # verify that the child is a TextInput
+                    child.background_color = (0, 0, 0, 1)
+                    child.foreground_color = (1, 1, 1, 1)
+                elif isinstance(child, Label):
+                    child.color = (0,0,0,1)
+            try:
+                box_layout = screen.children[1]  # BoxLayout instance
+                for child in box_layout.children:  # children of box_layout
+                    if isinstance(child, TextInput):  # verify that the child is a TextInput
+                        child.background_color = (0, 0, 0, 1)
+                        child.foreground_color = (1, 1, 1, 1)
+                    elif isinstance(child, Label):
+                        child.color = (0, 0, 0, 1)
+            except:
+                pass
+
+    pass
+
 
 if __name__ == "__main__":
+    Clock.schedule_once(iii)
     WeatherApp().run()

@@ -1,0 +1,69 @@
+Updating the python code:
+    Updating the AddLocationForm Class:
+
+        Updating the fill method:
+
+            Update the fist line of this method to:
+
+            // This is a much easier and more efficient way of getting the recent searches.
+            rs = (ast.literal_eval(self.usr_details))["recent_searches_METAR"]
+
+        Updating the found_location method:
+
+            Adding the following to the end of the method:
+                // We get a dictionary form of the user details
+                usrdata = ast.LITERAL_EVAL(self.usr_details)
+                // This updates the recent searches for the new search
+                usrdata["recent_searches_METAR"] = [self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text]
+                // Then we update the usr_details, making sure that it is formatted to a string to avoid a type error.
+                self.usr_details = STRING(usrdata)
+                // we call the method to update the JSON file, adding the appropriate parameters in.
+                update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
+
+
+Updating the python code:
+
+    PROCEDURE update_JSON(data, location, user):
+        // opens data.json to read and sets it to variable f
+		f = OPENREAD(“data.json”)
+		// uses json.load to decode the data into a python dictionary called data
+		data = json.LOAD(f)
+		// initialises a list which will store the id's of each user
+		idLst = []
+		// closes the file as all necessary data has been extrapolated
+		f.CLOSE()
+		// a for loop which iterates over each user, gets their id and adds it to the list
+		FOR users IN data[‘users’] {
+			idLst.append(users)
+		}
+
+		// We now want to find the users data so we iterate over the id's and update the data based on the parameters
+		// given as a parameter
+		FOR id IN idList {
+	        IF id['username'] == user {
+	            data['users'][id][location] = data
+	            pass
+            }
+		}
+
+		// we open a temporary file where we dump the updated file. Then, we close the file.
+		f = OPENWRITE("temp.json")
+		json.DUMP(data, f, indent=2)
+        f.CLOSE()
+
+		// this deletes the old json file, and renames the temporary one to be the same name as the old one (basically replacing them)
+		os.REMOVE("Data/data.json")
+        os.RENAME("Data/temp.json", "Data/data.json")
+    ENDPROCEDURE
+
+
+
+
+
+
+
+
+
+
+
+
