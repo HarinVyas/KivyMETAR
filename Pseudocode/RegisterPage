@@ -61,7 +61,7 @@ CLASS RegisterPage(BoxLayout, Screen) {
                              "email": self.email_input.text, "recent_searches_METAR": [], "recent_searches_ICAO": []}
         
 		// this creates a temporary json file and dumps the modified data there and closes it
-		f = OPENWRITE("temp.json")
+		f = OPENWRITE("Data/temp.json")
 		json.DUMP(data, f, indent=2)
         f.CLOSE()
 		

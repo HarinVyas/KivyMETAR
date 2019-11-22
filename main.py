@@ -127,6 +127,7 @@ class AddLocationForm(BoxLayout, Screen):
                                             self.recent_search_three.text]
         self.usr_details = str(usrdata)
         print(self.usr_details)
+        update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
 
     def fill(self):
         rs = (ast.literal_eval(self.usr_details))["recent_searches_METAR"]
@@ -156,6 +157,28 @@ class ICAOFinder(BoxLayout, Screen):
 
 class WeatherApp(App):
     pass
+
+
+def update_JSON(update_data, location, user):
+    f = open("Data/data.json", "r", encoding="utf-8")
+    data = json.load(f)
+    idLst = []
+    f.close()
+    for users in data['users']:
+        idLst.append(users)
+
+    for id in idLst:
+        if data['users'][id]["username"] == user:
+            data['users'][id][location] = update_data
+            pass
+
+    with open("Data/temp.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    f.close()
+    os.remove("Data/data.json")
+    os.rename("Data/temp.json", "Data/data.json")
+
+
 
 def iii(time):
     print("h")

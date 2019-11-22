@@ -23,9 +23,9 @@ Updating the python code:
 
 Updating the python code:
 
-    PROCEDURE update_JSON(data, location, user):
+    PROCEDURE update_JSON(update_data, location, user):
         // opens data.json to read and sets it to variable f
-		f = OPENREAD(“data.json”)
+		f = OPENREAD(“Data/data.json”, encoding="utf-8")
 		// uses json.load to decode the data into a python dictionary called data
 		data = json.LOAD(f)
 		// initialises a list which will store the id's of each user
@@ -41,13 +41,13 @@ Updating the python code:
 		// given as a parameter
 		FOR id IN idList {
 	        IF id['username'] == user {
-	            data['users'][id][location] = data
+	            data['users'][id][location] = update_data
 	            pass
             }
 		}
 
 		// we open a temporary file where we dump the updated file. Then, we close the file.
-		f = OPENWRITE("temp.json")
+		f = OPENWRITE("Data/temp.json", encoding="utf-8")
 		json.DUMP(data, f, indent=2)
         f.CLOSE()
 

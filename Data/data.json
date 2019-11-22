@@ -17,9 +17,9 @@
       "password_hash": "251ae1a4ffe473bf2ac4b8970f4da26d",
       "email": "h@h.h",
       "recent_searches_METAR": [
+        "EGLL",
         "EGCC",
-        "VAAH",
-        "KJFK"
+        "VAAH"
       ]
     },
     "4": {
@@ -68,12 +68,6 @@
       "username": "re",
       "password_hash": "01ffb381ad92dbd38d56b8e5a36ad391",
       "email": "re@re.re",
-      "recent_searches_METAR": []
-    },
-    "12": {
-      "username": "kkkland20",
-      "password_hash": "858e63a3872198ab9e7538478917255e",
-      "email": "kkk@kkk.kkk",
       "recent_searches_METAR": []
     }
   }
