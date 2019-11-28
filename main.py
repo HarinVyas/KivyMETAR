@@ -8,6 +8,7 @@ from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
+from kivy.properties import NumericProperty
 import json
 import hashlib
 import os
@@ -16,6 +17,8 @@ from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
 import ast
 from kivy.uix.label import Label
+from mapview import MapView
+from mapview import *
 
 class WeatherRoot(ScreenManager, BoxLayout):
     pass
@@ -103,32 +106,77 @@ class AddLocationForm(BoxLayout, Screen):
     recent_search_three = ObjectProperty()
     usr_details = ObjectProperty()
 
+    airport_info = ObjectProperty()
+    raw = ObjectProperty()
+    time = ObjectProperty()
+    temp = ObjectProperty()
+    dew = ObjectProperty()
+    wind = ObjectProperty()
+    alt = ObjectProperty()
+    cloud = ObjectProperty()
+    other = ObjectProperty()
+    runway_data = ObjectProperty()
+
+    map = ObjectProperty()
+
+    token = "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg"
+
     def search_location(self):
         search_template = "https://avwx.rest/api/metar/{}?options=summary&format=json&onfail=cache&token={}"
-        search_url = search_template.format(self.search_input.text, "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg")
+        search_url = search_template.format(self.search_input.text, self.token)
         request = UrlRequest(url=search_url, on_success=self.found_location, on_error=print, on_failure=print)
-
+    
+    def get_info(self, ICAO):
+        search_template = "https://avwx.rest/api/station/{}?options=format=json&onfail=cache&token={}"
+        search_url = search_template.format(self.search_input.text, self.token)
+        request = UrlRequest(url=search_url, on_success=self.update_info, on_error=print, on_failure=print)
+        
+        
     def found_location(self, request, data):
         print("jsdfhk")
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
         toAdd = []
 
-        raw = data['raw'].split()
+        self.raw.text = data['raw']
         summary = data['summary'].split(',')
+        print(summary)
         for i in summary:
             toAdd.append(i)
         self.search_results.item_strings = toAdd
+        self.wind.text = summary[0]
+        self.other.text = summary[1].replace('Vis', 'Visibility -')
+        self.temp.text, self.dew.text = summary[2].replace('Temp', 'Temperature -'), summary[3].replace('Dew', 'Dew Point - ')
+        self.alt.text, self.cloud.text = summary[4].replace('Alt', 'Altimeter'), summary[5]
+
+
         self.recent_search_three.text = self.recent_search_two.text
         self.recent_search_two.text = self.recent_search_one.text
         self.recent_search_one.text = self.search_input.text
-
         usrdata = ast.literal_eval(self.usr_details)
         usrdata["recent_searches_METAR"] = [self.recent_search_one.text, self.recent_search_two.text,
                                             self.recent_search_three.text]
         self.usr_details = str(usrdata)
         print(self.usr_details)
-        update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
-
+        if self.get_info(self.search_input.text) == True:
+            update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
+        
+    def update_info(self, request, data):
+        data = json.loads(data.decode()) if not isinstance(data, dict) else data
+        
+        name = '{}, {} ({})'.format(data['name'], data['country'], data['icao'])
+        
+        self.map.center_on(float(data['latitude']), float(data['longitude']))
+        #marker = MapMarker(float(data['longitude']), float(data['latitude']))
+        #self.map.add_marker(marker)
+        toAdd = []
+        counter = 1
+        for runway in data['runways']:
+            d = "{}) {}/{}, Length = {}ft, Width = {}ft".format(counter, runway['ident1'], runway['ident2']
+                                                            , runway['length_ft'], runway['width_ft'])
+            toAdd.append(d)
+        self.runway_data.item_strings = toAdd
+        return True
+        
     def fill(self):
         rs = (ast.literal_eval(self.usr_details))["recent_searches_METAR"]
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
@@ -183,6 +231,7 @@ def update_JSON(update_data, location, user):
 def iii(time):
     print("h")
     x = 1
+    """
     if x == 1:
         Window.clearcolor = (1, 1, 1, 1)
         root = App.get_running_app().root  # WeatherRoot instance
@@ -205,9 +254,13 @@ def iii(time):
                         child.color = (0, 0, 0, 1)
             except:
                 pass
-
+    """
     pass
 
+class Map(MapView):
+    def build(self):
+        mapview = MapView(zoom=AddLocationForm.zoom, lat=AddLocationForm.lat, lon=AddLocationForm.long)
+        return mapview
 
 if __name__ == "__main__":
     Clock.schedule_once(iii)

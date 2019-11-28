@@ -7,7 +7,6 @@
      #   Rectangle:
       #      pos: self.pos
        #     size: self.size
-
 WeatherRoot:
 <WeatherRoot>:
     id: screen_manager
@@ -140,18 +139,32 @@ WeatherRoot:
 
 <AddLocationForm>:
     name: "AddLocation"
-
     search_input: search_box
     search_results: search_results_list
     recent_search_one: rsone
     recent_search_two: rstwo
     recent_search_three: rsthree
+
+    airport_info: airport
+    raw: raw_METAR
+    time: time
+    temp: temp
+    dew: dew
+    wind: wind
+    alt: alt
+    cloud: cloud
+    other: other
+    runway_data: runway_data
+
+    map: map
+
     orientation: "vertical"
     BoxLayout:
         height: "40dp"
         size_hint_y: None
         Label:
             text: "Enter ICAO Code"
+
     BoxLayout:
         height: "40dp"
         size_hint_y: None
@@ -204,8 +217,74 @@ WeatherRoot:
                 root.manager.transition.direction = "left"
 
     ListView:
+        height: "4dp"
+        size_hint_y: None
         id: search_results_list
         item_strings: []
+    Label:
+        id: airport
+        text: "Airport Name"
+        height: "20dp"
+        size_hint_y: None
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: (1,0,0,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "vertical"
+            BoxLayout:
+                height: "100dp"
+                orientation: "horizontal"
+                Map:
+                    id: map
+                    zoom: 12
+                    lat: 40.63980103
+                    lon: -73.77890015
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        id: raw_METAR
+                        text: "Raw METAR"
+                    Label:
+                        id: time
+                        text: "METAR at Time"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        Label:
+                            id: temp
+                            text: "1"
+                        Label:
+                            id: dew
+                            text: "2"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        Label:
+                            id: wind
+                            text: "1"
+                        Label:
+                            id: alt
+                            text: "2"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        Label:
+                            id: cloud
+                            text: "1"
+                        Label:
+                            id: other
+                            text: "2"
+            BoxLayout:
+                height: "100dp"
+                orientation: "vertical"
+                Label:
+                    text: "Runway Data"
+                ListView:
+                    id: runway_data
+                    item_strings: []
+
 
 <ICAOFinder>:
     name: "ICAO"
