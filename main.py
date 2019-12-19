@@ -1,5 +1,5 @@
 """
-VERSION 1.0.0 ChiChi
+VERSION 1.2.0 BbyBatak
 """
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -7,10 +7,13 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.popup import Popup
+from kivy.uix.togglebutton import ToggleButton
 from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
 from kivy.network.urlrequest import UrlRequest
 from kivy.clock import *
+from kivy.factory import Factory
 from kivy.core.window import Window
 import json
 import hashlib
@@ -226,6 +229,7 @@ def update_JSON(update_data, location, user):
 
 def iii(time):
     print("h")
+    """
     x = 1
     if x == 1:
         Window.clearcolor = (1, 1, 1, 1)
@@ -256,10 +260,11 @@ def iii(time):
                     elif isinstance(child, Label):
                         child.color = (0, 0, 0, 1)
 
+
             except:
                 pass
     pass
-
+    """
 
 class Map(MapView):
     def build(self):

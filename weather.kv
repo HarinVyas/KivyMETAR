@@ -1,4 +1,4 @@
-# VERSION 1.0.0 ChiChi
+# VERSION 1.2.0 BbyBatak
 #canvas.before:
      #   Color:
             #rgba: 1, 0.9, 0.8, 1 - blanched almond
@@ -119,6 +119,7 @@ WeatherRoot:
                 size_hint_x: 0.6
                 size_hint_y: 1.5
                 halign: 'center'
+                color: 1, 0.9, 0.8, 1
                 on_release:
                     root.register_validation()
         AnchorLayout:
@@ -126,6 +127,7 @@ WeatherRoot:
                 text: "Already got an account?"
                 size_hint_x: 0.6
                 size_hint_y: 1.5
+                color: 1, 0.9, 0.8, 1
                 halign: 'center'
                 font_size: 28
                 on_release:
@@ -136,6 +138,34 @@ WeatherRoot:
             text: ""
             font_size: 25
 
+#:import Factory kivy.factory.Factory
+<MyPopup@Popup>:
+    auto_dismiss: False
+    title: "Settings"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        canvas.before:
+            Color:
+                rgba: (0.29, 0, 0.50, 0.5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ToggleButton:
+            font_size: 30
+            text: "Dark Mode"
+            group: "Themes"
+            color: 1, 0.9, 0.8, 1
+        ToggleButton:
+            font_size: 30
+            text: "Light Mode"
+            group: "Themes"
+            color: 1, 0.9, 0.8, 1
+        Button:
+            font_size: 30
+            text: 'Close settings'
+            color: 1, 0.9, 0.8, 1
+            on_release: root.dismiss()
 
 <AddLocationForm>:
     name: "AddLocation"
@@ -157,13 +187,18 @@ WeatherRoot:
 
     map: map
     bl: bl
-
     orientation: "vertical"
     BoxLayout:
         height: "40dp"
         size_hint_y: None
         Label:
             text: "Enter ICAO Code"
+            size_hint_x: 70
+        Button:
+            size_hint_x: 30
+            color: 1, 0.9, 0.8, 1
+            text: 'Settings'
+            on_release: Factory.MyPopup().open()
 
     BoxLayout:
         height: "40dp"
@@ -176,11 +211,13 @@ WeatherRoot:
         Button:
             text: "Search"
             size_hint_x: 15
+            color: 1, 0.9, 0.8, 1
             on_press:
                 root.search_location()
         Button:
             text: "Recent Searches"
             size_hint_x: 20
+            color: 1, 0.9, 0.8, 1
             on_parent: dropdown.dismiss()
             on_release:
                 root.fill()
@@ -193,6 +230,7 @@ WeatherRoot:
                 id: rsone
                 text: "First Item"
                 size_hint_y: None
+                color: 1, 0.9, 0.8, 1
                 height: 35
                 on_release: search_box.text = self.text
 
@@ -200,6 +238,7 @@ WeatherRoot:
                 id: rstwo
                 text: 'Second Item'
                 size_hint_y: None
+                color: 1, 0.9, 0.8, 1
                 height: 35
                 on_release: search_box.text = self.text
 
@@ -207,11 +246,13 @@ WeatherRoot:
                 id: rsthree
                 text: 'Third Item'
                 size_hint_y: None
+                color: 1, 0.9, 0.8, 1
                 height: 35
                 on_release: search_box.text = self.text
         Button:
             text: "Forgot your ICAO?"
             size_hint_x: 25
+            color: 1, 0.9, 0.8, 1
             on_release:
                 app.root.current = "ICAO"
                 root.manager.transition.direction = "left"
@@ -223,12 +264,12 @@ WeatherRoot:
         size_hint_y: None
     BoxLayout:
         id: bl
-        #canvas.before:
-         #   Color:
-          #      rgba: (0.5,0.5,0.5,1)
-           # Rectangle:
-            #    pos: self.pos
-             #   size: self.size
+        canvas.before:
+            Color:
+                rgba: (0.29, 0, 0.50, 0.5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
         orientation: "vertical"
         BoxLayout:
             orientation: "vertical"
@@ -245,42 +286,53 @@ WeatherRoot:
                     Label:
                         id: raw_METAR
                         text: "Raw METAR"
+                        color: 1, 0.9, 0.8, 1
                         #color: 0.9, 0.26, 0, 1
                     Label:
                         id: time
                         text: "METAR at Time"
+                        color: 1, 0.9, 0.8, 1
                     BoxLayout:
                         orientation: "horizontal"
                         Label:
                             id: temp
                             text: "1"
+                            color: 1, 0.9, 0.8, 1
                         Label:
                             id: dew
                             text: "2"
+                            color: 1, 0.9, 0.8, 1
                     BoxLayout:
                         orientation: "horizontal"
                         Label:
                             id: wind
                             text: "1"
+                            color: 1, 0.9, 0.8, 1
                         Label:
                             id: alt
                             text: "2"
+                            color: 1, 0.9, 0.8, 1
                     BoxLayout:
                         orientation: "horizontal"
                         Label:
                             id: cloud
                             text: "1"
+                            color: 1, 0.9, 0.8, 1
                         Label:
                             id: other
                             text: "2"
+                            color: 1, 0.9, 0.8, 1
             BoxLayout:
                 height: "100dp"
                 orientation: "vertical"
                 Label:
                     text: "Runway Data"
+                    color: 1, 0.9, 0.8, 1
                 ListView:
                     id: runway_data
                     item_strings: []
+                    color: 1, 0.9, 0.8, 1
+                    selected_color: 1,1,1,1
 
 
 <ICAOFinder>:
@@ -302,14 +354,17 @@ WeatherRoot:
         Button:
             text: "Search"
             size_hint_x: 10
+            color: 1, 0.9, 0.8, 1
             on_press: root.findICAO()
         Button:
             size_hint_x: 10
             text: "Clear"
+            color: 1, 0.9, 0.8, 1
             on_release: search_results_list_ICAO.item_strings = []
         Button:
             text: "Back"
             size_hint_x: 10
+            color: 1, 0.9, 0.8, 1
             on_release:
                 app.root.current = "AddLocation"
                 root.manager.transition.direction = "right"
