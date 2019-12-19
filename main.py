@@ -4,21 +4,21 @@ VERSION 1.0.0 ChiChi
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.dropdown import DropDown
-from kivy.properties import ObjectProperty
-from kivy.network.urlrequest import UrlRequest
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import ObjectProperty
 from kivy.properties import StringProperty
-from kivy.properties import NumericProperty
+from kivy.network.urlrequest import UrlRequest
+from kivy.clock import *
+from kivy.core.window import Window
 import json
 import hashlib
 import os
-from kivy.clock import *
-from kivy.core.window import Window
-from kivy.uix.textinput import TextInput
 import ast
-from kivy.uix.label import Label
-from mapview import MapView
+from kivy.graphics import *
 from mapview import *
+
 
 class WeatherRoot(ScreenManager, BoxLayout):
     pass
@@ -100,7 +100,6 @@ class LoginPage(BoxLayout, Screen):
 
 class AddLocationForm(BoxLayout, Screen):
     search_input = ObjectProperty()
-    search_results = ObjectProperty()
     recent_search_one = ObjectProperty()
     recent_search_two = ObjectProperty()
     recent_search_three = ObjectProperty()
@@ -116,7 +115,7 @@ class AddLocationForm(BoxLayout, Screen):
     cloud = ObjectProperty()
     other = ObjectProperty()
     runway_data = ObjectProperty()
-
+    bl = ObjectProperty()
     map = ObjectProperty()
 
     token = "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg"
@@ -130,8 +129,7 @@ class AddLocationForm(BoxLayout, Screen):
         search_template = "https://avwx.rest/api/station/{}?options=format=json&onfail=cache&token={}"
         search_url = search_template.format(self.search_input.text, self.token)
         request = UrlRequest(url=search_url, on_success=self.update_info, on_error=print, on_failure=print)
-        
-        
+
     def found_location(self, request, data):
         print("jsdfhk")
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
@@ -142,12 +140,12 @@ class AddLocationForm(BoxLayout, Screen):
         print(summary)
         for i in summary:
             toAdd.append(i)
-        self.search_results.item_strings = toAdd
         self.wind.text = summary[0]
         self.other.text = summary[1].replace('Vis', 'Visibility -')
         self.temp.text, self.dew.text = summary[2].replace('Temp', 'Temperature -'), summary[3].replace('Dew', 'Dew Point - ')
         self.alt.text, self.cloud.text = summary[4].replace('Alt', 'Altimeter'), summary[5]
-
+        time = data['time']['dt'].split('T')
+        self.time.text = "METAR on the: {}, at {}".format(time[0], time[1].split('+')[0])
 
         self.recent_search_three.text = self.recent_search_two.text
         self.recent_search_two.text = self.recent_search_one.text
@@ -159,15 +157,13 @@ class AddLocationForm(BoxLayout, Screen):
         print(self.usr_details)
         if self.get_info(self.search_input.text) == True:
             update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
+
         
     def update_info(self, request, data):
         data = json.loads(data.decode()) if not isinstance(data, dict) else data
         
         name = '{}, {} ({})'.format(data['name'], data['country'], data['icao'])
-        
         self.map.center_on(float(data['latitude']), float(data['longitude']))
-        #marker = MapMarker(float(data['longitude']), float(data['latitude']))
-        #self.map.add_marker(marker)
         toAdd = []
         counter = 1
         for runway in data['runways']:
@@ -231,7 +227,6 @@ def update_JSON(update_data, location, user):
 def iii(time):
     print("h")
     x = 1
-    """
     if x == 1:
         Window.clearcolor = (1, 1, 1, 1)
         root = App.get_running_app().root  # WeatherRoot instance
@@ -252,10 +247,19 @@ def iii(time):
                         child.foreground_color = (1, 1, 1, 1)
                     elif isinstance(child, Label):
                         child.color = (0, 0, 0, 1)
+
+                box_layout = screen.children[2]  # BoxLayout instance
+                for child in box_layout.children:  # children of box_layout
+                    if isinstance(child, TextInput):  # verify that the child is a TextInput
+                        child.background_color = (0, 0, 0, 1)
+                        child.foreground_color = (1, 1, 1, 1)
+                    elif isinstance(child, Label):
+                        child.color = (0, 0, 0, 1)
+
             except:
                 pass
-    """
     pass
+
 
 class Map(MapView):
     def build(self):

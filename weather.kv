@@ -140,7 +140,6 @@ WeatherRoot:
 <AddLocationForm>:
     name: "AddLocation"
     search_input: search_box
-    search_results: search_results_list
     recent_search_one: rsone
     recent_search_two: rstwo
     recent_search_three: rsthree
@@ -157,6 +156,7 @@ WeatherRoot:
     runway_data: runway_data
 
     map: map
+    bl: bl
 
     orientation: "vertical"
     BoxLayout:
@@ -216,23 +216,19 @@ WeatherRoot:
                 app.root.current = "ICAO"
                 root.manager.transition.direction = "left"
 
-    ListView:
-        height: "4dp"
-        size_hint_y: None
-        id: search_results_list
-        item_strings: []
     Label:
         id: airport
         text: "Airport Name"
         height: "20dp"
         size_hint_y: None
     BoxLayout:
-        canvas.before:
-            Color:
-                rgba: (1,0,0,1)
-            Rectangle:
-                pos: self.pos
-                size: self.size
+        id: bl
+        #canvas.before:
+         #   Color:
+          #      rgba: (0.5,0.5,0.5,1)
+           # Rectangle:
+            #    pos: self.pos
+             #   size: self.size
         orientation: "vertical"
         BoxLayout:
             orientation: "vertical"
@@ -249,6 +245,7 @@ WeatherRoot:
                     Label:
                         id: raw_METAR
                         text: "Raw METAR"
+                        #color: 0.9, 0.26, 0, 1
                     Label:
                         id: time
                         text: "METAR at Time"
