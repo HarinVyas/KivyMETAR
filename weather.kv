@@ -156,11 +156,13 @@ WeatherRoot:
             text: "Dark Mode"
             group: "Themes"
             color: 1, 0.9, 0.8, 1
+            on_release: Factory.AddLocationForm.change_theme('d')
         ToggleButton:
             font_size: 30
             text: "Light Mode"
             group: "Themes"
             color: 1, 0.9, 0.8, 1
+            on_release: Factory.AddLocationForm.change_theme('l')
         Button:
             font_size: 30
             text: 'Close settings'
@@ -184,9 +186,9 @@ WeatherRoot:
     cloud: cloud
     other: other
     runway_data: runway_data
+    airport: airport
 
     map: map
-    bl: bl
     orientation: "vertical"
     BoxLayout:
         height: "40dp"
@@ -198,6 +200,7 @@ WeatherRoot:
             size_hint_x: 30
             color: 1, 0.9, 0.8, 1
             text: 'Settings'
+            color: 1, 0.9, 0.8, 1
             on_release: Factory.MyPopup().open()
 
     BoxLayout:
@@ -260,10 +263,10 @@ WeatherRoot:
     Label:
         id: airport
         text: "Airport Name"
+        color: 1, 0.9, 0.8, 1
         height: "20dp"
         size_hint_y: None
     BoxLayout:
-        id: bl
         canvas.before:
             Color:
                 rgba: (0.29, 0, 0.50, 0.5)

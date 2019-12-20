@@ -118,7 +118,7 @@ class AddLocationForm(BoxLayout, Screen):
     cloud = ObjectProperty()
     other = ObjectProperty()
     runway_data = ObjectProperty()
-    bl = ObjectProperty()
+    airport = ObjectProperty()
     map = ObjectProperty()
 
     token = "3ddws52jkyV_1PWKhIRFKFL0RUI4IMfFIDoO_L-wOgg"
@@ -174,11 +174,19 @@ class AddLocationForm(BoxLayout, Screen):
                                                             , runway['length_ft'], runway['width_ft'])
             toAdd.append(d)
         self.runway_data.item_strings = toAdd
+        self.airport.text = data['name']
         return True
         
     def fill(self):
         rs = (ast.literal_eval(self.usr_details))["recent_searches_METAR"]
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
+
+    def change_theme(s):
+        print(1)
+        os.remove("Data/theme.txt")
+        f = open("Data/theme.txt", "w+")
+        f.write(s)
+        f.close()
 
 
 class ICAOFinder(BoxLayout, Screen):
@@ -229,9 +237,9 @@ def update_JSON(update_data, location, user):
 
 def iii(time):
     print("h")
-    """
-    x = 1
-    if x == 1:
+    f = open("Data/theme.txt", "r+")
+    d = f.read()
+    if d == 'l':
         Window.clearcolor = (1, 1, 1, 1)
         root = App.get_running_app().root  # WeatherRoot instance
         for i in range(0, 4):
@@ -264,7 +272,6 @@ def iii(time):
             except:
                 pass
     pass
-    """
 
 class Map(MapView):
     def build(self):
