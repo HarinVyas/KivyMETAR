@@ -182,7 +182,6 @@ class AddLocationForm(BoxLayout, Screen):
         self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text = rs[0], rs[1], rs[2]
 
     def change_theme(s):
-        print(1)
         os.remove("Data/theme.txt")
         f = open("Data/theme.txt", "w+")
         f.write(s)
@@ -234,11 +233,10 @@ def update_JSON(update_data, location, user):
     os.rename("Data/temp.json", "Data/data.json")
 
 
-
-def iii(time):
-    print("h")
+def load_theme(time):
     f = open("Data/theme.txt", "r+")
     d = f.read()
+    f.close()
     if d == 'l':
         Window.clearcolor = (1, 1, 1, 1)
         root = App.get_running_app().root  # WeatherRoot instance
@@ -273,11 +271,13 @@ def iii(time):
                 pass
     pass
 
+
 class Map(MapView):
     def build(self):
         mapview = MapView(zoom=AddLocationForm.zoom, lat=AddLocationForm.lat, lon=AddLocationForm.long)
         return mapview
 
+
 if __name__ == "__main__":
-    Clock.schedule_once(iii)
+    Clock.schedule_once(load_theme)
     WeatherApp().run()

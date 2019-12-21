@@ -198,7 +198,6 @@ WeatherRoot:
             size_hint_x: 70
         Button:
             size_hint_x: 30
-            color: 1, 0.9, 0.8, 1
             text: 'Settings'
             color: 1, 0.9, 0.8, 1
             on_release: Factory.MyPopup().open()
@@ -260,12 +259,7 @@ WeatherRoot:
                 app.root.current = "ICAO"
                 root.manager.transition.direction = "left"
 
-    Label:
-        id: airport
-        text: "Airport Name"
-        color: 1, 0.9, 0.8, 1
-        height: "20dp"
-        size_hint_y: None
+
     BoxLayout:
         canvas.before:
             Color:
@@ -274,8 +268,15 @@ WeatherRoot:
                 pos: self.pos
                 size: self.size
         orientation: "vertical"
+
         BoxLayout:
             orientation: "vertical"
+            Label:
+                id: airport
+                text: "Airport Name"
+                color: 1, 0.9, 0.8, 1
+                height: "20dp"
+                size_hint_y: None
             BoxLayout:
                 height: "100dp"
                 orientation: "horizontal"
@@ -348,6 +349,7 @@ WeatherRoot:
         size_hint_y: None
         Label:
             text: "Enter Name of airport"
+            color: 0,0,0,1
     BoxLayout:
         height: "40dp"
         size_hint_y: None
