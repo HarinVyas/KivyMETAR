@@ -173,6 +173,7 @@ class AddLocationForm(BoxLayout, Screen):
             d = "{}) {}/{}, Length = {}ft, Width = {}ft".format(counter, runway['ident1'], runway['ident2']
                                                             , runway['length_ft'], runway['width_ft'])
             toAdd.append(d)
+            counter += 1
         self.runway_data.item_strings = toAdd
         self.airport.text = data['name']
         return True
