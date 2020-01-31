@@ -57,7 +57,7 @@ class RegisterPage(BoxLayout, Screen):
         salt = "yousaltybro"
         passHash = hashlib.md5((salt + self.password_input.text).encode("utf-8")).hexdigest()
         data['users'][id] = {"username": self.username_input.text, "password_hash": passHash,
-                             "email": self.email_input.text, "recent_searches_METAR": [], "recent_searches_ICAO": []}
+                             "email": self.email_input.text, "recent_searches_METAR": []}
         with open("Data/temp.json", "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
         f.close()
@@ -150,6 +150,7 @@ class AddLocationForm(BoxLayout, Screen):
         time = data['time']['dt'].split('T')
         self.time.text = "METAR on the: {}, at {}".format(time[0], time[1].split('+')[0])
 
+        print(self.usr_details)
         self.recent_search_three.text = self.recent_search_two.text
         self.recent_search_two.text = self.recent_search_one.text
         self.recent_search_one.text = self.search_input.text

@@ -69,6 +69,14 @@
       "password_hash": "01ffb381ad92dbd38d56b8e5a36ad391",
       "email": "re@re.re",
       "recent_searches_METAR": []
+    },
+    "12": {
+      "username": "eel",
+      "password_hash": "f0e9ab56b7e92ac4acb5e6affda1d971",
+      "email": "eel@outlook.com",
+      "recent_searches_METAR": ["EGLL",
+        "EGCC",
+        "VAAH"]
     }
   }
 }
