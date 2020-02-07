@@ -15,17 +15,17 @@
     "3": {
       "username": "h",
       "password_hash": "251ae1a4ffe473bf2ac4b8970f4da26d",
-      "email": "h@h.h",
+      "email": "h@hotmail.com",
       "recent_searches_METAR": [
-        "EGLL",
+        "VAAH",
         "EGCC",
-        "VAAH"
+        "VHHH"
       ]
     },
     "4": {
-      "username": "poo",
+      "username": "paul",
       "password_hash": "99472163baac5f6bf1e5762f70b5d06a",
-      "email": "poo@pee.com",
+      "email": "paul@outlook.com",
       "recent_searches_METAR": []
     },
     "5": {
@@ -74,9 +74,11 @@
       "username": "eel",
       "password_hash": "f0e9ab56b7e92ac4acb5e6affda1d971",
       "email": "eel@outlook.com",
-      "recent_searches_METAR": ["EGLL",
-        "EGCC",
-        "VAAH"]
+      "recent_searches_METAR": [
+        "VHHH",
+        "First Item",
+        "Second Item"
+      ]
     }
   }
 }

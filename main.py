@@ -151,16 +151,21 @@ class AddLocationForm(BoxLayout, Screen):
         self.time.text = "METAR on the: {}, at {}".format(time[0], time[1].split('+')[0])
 
         print(self.usr_details)
-        self.recent_search_three.text = self.recent_search_two.text
-        self.recent_search_two.text = self.recent_search_one.text
+        rs = ast.literal_eval(self.usr_details)["recent_searches_METAR"]
+        print(rs)
+        self.recent_search_three.text = rs[1]
+        self.recent_search_two.text = rs[0]
         self.recent_search_one.text = self.search_input.text
+        print("yoink")
+        print(self.recent_search_one.text, self.recent_search_two.text, self.recent_search_three.text)
         usrdata = ast.literal_eval(self.usr_details)
         usrdata["recent_searches_METAR"] = [self.recent_search_one.text, self.recent_search_two.text,
                                             self.recent_search_three.text]
         self.usr_details = str(usrdata)
         print(self.usr_details)
-        if self.get_info(self.search_input.text) == True:
-            update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
+        print("yay")
+        update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
+        self.get_info(self.search_input.text)
 
         
     def update_info(self, request, data):
