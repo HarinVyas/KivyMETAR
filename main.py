@@ -162,8 +162,6 @@ class AddLocationForm(BoxLayout, Screen):
         usrdata["recent_searches_METAR"] = [self.recent_search_one.text, self.recent_search_two.text,
                                             self.recent_search_three.text]
         self.usr_details = str(usrdata)
-        print(self.usr_details)
-        print("yay")
         update_JSON(usrdata['recent_searches_METAR'], 'recent_searches_METAR', usrdata['username'])
         self.get_info(self.search_input.text)
 
@@ -272,8 +270,6 @@ def load_theme(time):
                         child.foreground_color = (1, 1, 1, 1)
                     elif isinstance(child, Label):
                         child.color = (0, 0, 0, 1)
-
-
             except:
                 pass
     pass
